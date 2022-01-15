@@ -8,13 +8,25 @@ group = 'net.devk.his'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+ext{
+	hapiFhirVersion = '5.0.0'
+}
+
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	implementation "ca.uhn.hapi.fhir:hapi-fhir-base:$hapiFhirVersion"
+	implementation "ca.uhn.hapi.fhir:hapi-fhir-server:$hapiFhirVersion"
+	implementation "ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:$hapiFhirVersion"
+	implementation "ca.uhn.hapi.fhir:hapi-fhir-structures-r4:$hapiFhirVersion"
+	
+	
+	
 }
 
 test {
