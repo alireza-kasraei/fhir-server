@@ -1,1 +1,3 @@
 rootProject.name = 'fhir-server'
+include('api', 'patients', 'client')
+

@@ -1,0 +1,14 @@
+plugins {
+    // Apply the java Plugin to add support for Java.
+    id 'java'
+}
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+}
+
+
+group = 'net.devk.his'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'

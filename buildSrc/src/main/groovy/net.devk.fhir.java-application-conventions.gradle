@@ -1,0 +1,29 @@
+plugins {
+    // Apply the common convention plugin for shared build configuration between library and application projects.
+    id 'net.devk.fhir.java-common-conventions'
+
+	id 'org.springframework.boot'
+	id 'io.spring.dependency-management'
+
+}
+
+ext{
+	hapiFhirVersion = '5.0.0'
+	set('springCloudVersion', "2021.0.1")
+}
+
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+bootJar {
+enabled = false
+}
+
