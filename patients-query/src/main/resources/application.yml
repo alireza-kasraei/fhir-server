@@ -3,6 +3,14 @@ server:
 spring:
   application:
     name: patients-query
+  datasource:
+    initialization-mode: always
+    url: jdbc:postgresql://localhost:5432/his
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
 axon:
   axonserver:
     servers: localhost

@@ -13,11 +13,11 @@ import reactor.core.publisher.Flux;
 @RequiredArgsConstructor
 public class PatientsReactiveController {
 
-  private final ReactorQueryGateway queryGateway;
+	private final ReactorQueryGateway queryGateway;
 
-  @GetMapping(value = "/patients", produces = "text/event-stream")
-  public Flux<PatientEntity> watchPatients() {
-    return queryGateway.subscriptionQueryMany(new FindAllPatientsQuery(), PatientEntity.class);
-  }
+	@GetMapping(value = "/patients", produces = "text/event-stream")
+	public Flux<PatientEntity> watchPatients() {
+		return queryGateway.subscriptionQueryMany(new FindAllPatientsQuery(), PatientEntity.class);
+	}
 
 }

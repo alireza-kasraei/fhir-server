@@ -4,10 +4,13 @@ import java.time.Instant;
 import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
 import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "PATIENTS")
 public class PatientEntity {
 
   @Id
