@@ -1,0 +1,30 @@
+plugins {
+	id 'net.devk.fhir.java-application-conventions'
+}
+
+
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+
+	implementation 'org.axonframework:axon-spring-boot-starter'
+	testImplementation 'org.axonframework:axon-test'
+	
+
+	implementation project(':api')
+
+
+
+	implementation "ca.uhn.hapi.fhir:hapi-fhir-base:$hapiFhirVersion"
+	implementation "ca.uhn.hapi.fhir:hapi-fhir-server:$hapiFhirVersion"
+	implementation "ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:$hapiFhirVersion"
+	implementation "ca.uhn.hapi.fhir:hapi-fhir-structures-r4:$hapiFhirVersion"
+		
+}
+
+
+    // Define the main class for the application.
+//   mainClassName = 'net.devk.his.fhirserver.FhirServerApplication'

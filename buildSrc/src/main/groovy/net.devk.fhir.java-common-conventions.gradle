@@ -8,6 +8,21 @@ repositories {
     mavenCentral()
 }
 
+ext{
+	set('axonVersion', "4.5.11")
+}
+
+configurations {
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
+}
+
+
+dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+}
 
 group = 'net.devk.his'
 version = '0.0.1-SNAPSHOT'
