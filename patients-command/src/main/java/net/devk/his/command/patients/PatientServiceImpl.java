@@ -30,14 +30,14 @@ class PatientServiceImpl implements PatientService {
   @Override
   public String createPatient(Patient thePatient) {
     String patientId = UUID.randomUUID().toString();
-    commandGateway.sendAndWait(new CreateNewPatientCommand(patientId,
+    commandGateway.send(new CreateNewPatientCommand(patientId,
         thePatient.getNameFirstRep().getNameAsSingleString()));
     return patientId;
   }
 
   @Override
   public void killPatient(String patientId, Instant deceasedDate) {
-    commandGateway.sendAndWait(new KillPatientCommand(patientId, deceasedDate));
+    commandGateway.send(new KillPatientCommand(patientId, deceasedDate));
   }
 
   @Override
