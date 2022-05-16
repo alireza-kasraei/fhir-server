@@ -4,8 +4,9 @@ plugins {
 
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+  	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  	testImplementation 'io.projectreactor:reactor-test'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   	developmentOnly 'org.springframework.boot:spring-boot-devtools'
   	runtimeOnly 'com.h2database:h2'
@@ -13,6 +14,7 @@ dependencies {
 
 	implementation 'org.axonframework:axon-spring-boot-starter'
 	testImplementation 'org.axonframework:axon-test'
+	implementation 'org.axonframework.extensions.reactor:axon-reactor-spring-boot-starter'
 	/*implementation 'org.axonframework:axon-distributed-commandbus-springcloud:4.5.9'*/
 
 
