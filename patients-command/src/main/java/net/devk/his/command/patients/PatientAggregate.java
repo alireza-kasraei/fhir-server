@@ -7,9 +7,9 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
 import net.devk.fhir.api.CreateNewPatientCommand;
-import net.devk.fhir.api.KillPatientCommand;
+import net.devk.fhir.api.ExpirePatientCommand;
 import net.devk.fhir.api.PatientCreatedEvent;
-import net.devk.fhir.api.PatientDiedEvent;
+import net.devk.fhir.api.PatientExpiredEvent;
 
 @Aggregate
 //@Aggregate(cache = "patientCache")
@@ -30,11 +30,11 @@ public class PatientAggregate {
   }
 
   @CommandHandler
-  public void handle(KillPatientCommand command) {
+  public void handle(ExpirePatientCommand command) {
     if (command.getDate().isAfter(Instant.now())) {
       throw new IllegalArgumentException("Haaan!?");
     }
-    apply(new PatientDiedEvent(command.getPatientId(), command.getDate()));
+    apply(new PatientExpiredEvent(command.getPatientId(), command.getDate()));
   }
 
   @EventSourcingHandler
@@ -44,7 +44,7 @@ public class PatientAggregate {
   }
 
   @EventSourcingHandler
-  public void on(PatientDiedEvent event) {
+  public void on(PatientExpiredEvent event) {
     this.deceasedDate = event.getDate();
   }
 

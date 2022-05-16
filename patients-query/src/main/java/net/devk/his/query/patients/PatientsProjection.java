@@ -9,7 +9,7 @@ import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.springframework.stereotype.Service;
 import net.devk.fhir.api.FindAllPatientsQuery;
 import net.devk.fhir.api.PatientCreatedEvent;
-import net.devk.fhir.api.PatientDiedEvent;
+import net.devk.fhir.api.PatientExpiredEvent;
 
 @Service
 @ProcessingGroup("patients-summary")
@@ -36,7 +36,7 @@ public class PatientsProjection {
   }
 
   @EventHandler
-  public void on(PatientDiedEvent event) {
+  public void on(PatientExpiredEvent event) {
     patientRepository.findById(UUID.fromString(event.getPatientId())).ifPresent(patientEntity -> {
       patientEntity.setDeceasedDate(event.getDate());
       patientRepository.save(patientEntity);

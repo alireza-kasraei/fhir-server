@@ -10,7 +10,7 @@ import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.StringType;
 import org.springframework.stereotype.Service;
 import net.devk.fhir.api.CreateNewPatientCommand;
-import net.devk.fhir.api.KillPatientCommand;
+import net.devk.fhir.api.ExpirePatientCommand;
 
 @Service
 class PatientServiceImpl implements PatientService {
@@ -37,7 +37,7 @@ class PatientServiceImpl implements PatientService {
 
   @Override
   public void killPatient(String patientId, Instant deceasedDate) {
-    commandGateway.send(new KillPatientCommand(patientId, deceasedDate));
+    commandGateway.send(new ExpirePatientCommand(patientId, deceasedDate));
   }
 
   @Override
