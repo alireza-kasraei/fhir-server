@@ -5,8 +5,6 @@ import org.axonframework.serialization.json.JacksonSerializer;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -28,16 +26,6 @@ public class AdmissionSagaApplication {
         .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     return JacksonSerializer.builder().objectMapper(objectMapper).lenientDeserialization().build();
   }
-  
-  @Bean
-  public ServletRegistrationBean<FhirRestfulServlet> fhirRestfulServlet(
-      ApplicationContext applicationContext) {
-    ServletRegistrationBean<FhirRestfulServlet> bean =
-        new ServletRegistrationBean<>(new FhirRestfulServlet(applicationContext), "/fhir/*");
-    bean.setLoadOnStartup(1);
-    return bean;
-  }
-
 
 
 }

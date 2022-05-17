@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
-import net.devk.fhir.api.FindAllPatientsQuery;
+import net.devk.fhir.api.query.FindAllPatientsQuery;
 import reactor.core.publisher.Flux;
 
 @RestController

@@ -14,10 +14,6 @@ dependencies {
 
 	implementation project(':api')
 	
-	implementation "ca.uhn.hapi.fhir:hapi-fhir-base:$hapiFhirVersion"
-	implementation "ca.uhn.hapi.fhir:hapi-fhir-server:$hapiFhirVersion"
-	implementation "ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:$hapiFhirVersion"
-	implementation "ca.uhn.hapi.fhir:hapi-fhir-structures-r4:$hapiFhirVersion"
 
 }
 

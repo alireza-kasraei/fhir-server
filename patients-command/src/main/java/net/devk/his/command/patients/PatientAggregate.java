@@ -6,12 +6,14 @@ import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
-import net.devk.fhir.api.CreateNewPatientCommand;
-import net.devk.fhir.api.ExpirePatientCommand;
-import net.devk.fhir.api.PatientCreatedEvent;
-import net.devk.fhir.api.PatientExpiredEvent;
+import lombok.extern.slf4j.Slf4j;
+import net.devk.fhir.api.commands.CreateNewPatientCommand;
+import net.devk.fhir.api.commands.ExpirePatientCommand;
+import net.devk.fhir.api.events.PatientCreatedEvent;
+import net.devk.fhir.api.events.PatientExpiredEvent;
 
 @Aggregate
+@Slf4j
 public class PatientAggregate {
 
   @AggregateIdentifier
@@ -22,6 +24,7 @@ public class PatientAggregate {
 
   @CommandHandler
   public PatientAggregate(CreateNewPatientCommand command) {
+    log.info("creating a patient aggregate:{}", command);
     // is it a valid patient?
     apply(new PatientCreatedEvent(command.getPatientId(), command.getName()));
   }
@@ -31,17 +34,20 @@ public class PatientAggregate {
     if (command.getDate().isAfter(Instant.now())) {
       throw new IllegalArgumentException("Haaan!?");
     }
+    log.info("expiring a patient:{}", command);
     apply(new PatientExpiredEvent(command.getPatientId(), command.getDate()));
   }
 
   @EventSourcingHandler
   public void on(PatientCreatedEvent event) {
+    log.info("setting PatientAggregate values with:{}", event);
     this.patientId = event.getPatientId();
     this.name = event.getName();
   }
 
   @EventSourcingHandler
   public void on(PatientExpiredEvent event) {
+    log.info("patient expired on :{}", event);
     this.deceasedDate = event.getDate();
   }
 

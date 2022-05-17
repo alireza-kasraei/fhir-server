@@ -1,6 +1,5 @@
-package net.devk.fhir.api;
+package net.devk.fhir.api.commands;
 
-import java.time.Instant;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +8,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmergencyServiceStartedEvent {
+public class CreateNewPatientCommand {
+
   @TargetAggregateIdentifier
-  private String admissionId;
-  private Instant serviceDate;
+  private String patientId;
+  private String name;
+
+
+
 }

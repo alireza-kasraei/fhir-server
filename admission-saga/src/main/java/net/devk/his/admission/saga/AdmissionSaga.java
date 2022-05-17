@@ -6,12 +6,14 @@ import org.axonframework.modelling.saga.SagaLifecycle;
 import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
-import net.devk.fhir.api.AdmissionCreatedEvent;
-import net.devk.fhir.api.CreateNewPatientCommand;
-import net.devk.fhir.api.EmergencyServiceEndedEvent;
-import net.devk.fhir.api.EmergencyServiceStartedEvent;
+import lombok.extern.slf4j.Slf4j;
+import net.devk.fhir.api.commands.CreateNewPatientCommand;
+import net.devk.fhir.api.events.AdmissionCreatedEvent;
+import net.devk.fhir.api.events.EmergencyServiceEndedEvent;
+import net.devk.fhir.api.events.EmergencyServiceStartedEvent;
 
 @Saga
+@Slf4j
 public class AdmissionSaga {
 
   private boolean paid = false;
@@ -25,12 +27,14 @@ public class AdmissionSaga {
   @StartSaga
   @SagaEventHandler(associationProperty = "admissionId")
   public void handle(AdmissionCreatedEvent event) {
+    log.info("admission saga started,{}", event);
     SagaLifecycle.associateWith("patientId", event.getPatientId());
     commandGateway.send(new CreateNewPatientCommand(event.getPatientId(), event.getPatientName()));
   }
 
   @SagaEventHandler(associationProperty = "admissionId")
   public void handle(EmergencyServiceStartedEvent event) {
+    log.info("patient has been visited by,{}", event.getPractitionerName());
     visited = true;
   }
 
@@ -39,6 +43,7 @@ public class AdmissionSaga {
     // did he pay?
     paid = true;
     if (paid) {
+      log.info("patient paid the invoce and discharged,{}", event);
       SagaLifecycle.end();
     }
   }

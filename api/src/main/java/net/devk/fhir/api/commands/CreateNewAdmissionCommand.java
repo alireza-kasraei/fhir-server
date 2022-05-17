@@ -1,4 +1,4 @@
-package net.devk.fhir.api;
+package net.devk.fhir.api.commands;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PatientCreatedEvent {
+public class CreateNewAdmissionCommand {
 
-  private String patientId;
-  private String name;
-
+  private String admissionId;
+  private String patientName;
 
 }

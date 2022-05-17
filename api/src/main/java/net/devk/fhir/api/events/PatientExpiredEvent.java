@@ -1,4 +1,4 @@
-package net.devk.fhir.api;
+package net.devk.fhir.api.events;
 
 import java.time.Instant;
 

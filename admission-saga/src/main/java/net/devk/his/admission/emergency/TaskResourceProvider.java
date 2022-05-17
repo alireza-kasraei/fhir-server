@@ -1,47 +1,49 @@
 package net.devk.his.admission.emergency;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.UUID;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.hl7.fhir.dstu3.model.IdType;
-import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.OperationOutcome;
-import org.hl7.fhir.r4.model.Patient;
-import org.hl7.fhir.r4.model.Task;
-import org.springframework.stereotype.Component;
-import ca.uhn.fhir.rest.annotation.Operation;
-import ca.uhn.fhir.rest.annotation.OperationParam;
-import ca.uhn.fhir.rest.api.MethodOutcome;
-import ca.uhn.fhir.rest.param.StringParam;
-import ca.uhn.fhir.rest.server.IResourceProvider;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
-import net.devk.fhir.api.CreateNewAdmissionCommand;
-import net.devk.fhir.api.EndEmergencyServiceCommand;
+import net.devk.fhir.api.commands.CreateNewAdmissionCommand;
+import net.devk.fhir.api.commands.EndEmergencyServiceCommand;
+import net.devk.fhir.api.commands.StartEmergencyServiceCommand;
 
-@Component
+@RestController
+@RequestMapping("/emergency")
 @RequiredArgsConstructor
-public class TaskResourceProvider implements IResourceProvider {
+public class TaskResourceProvider {
 
   private final CommandGateway commandGateway;
 
-  @Operation(name = "$startAdmission", idempotent = true)
-  public Bundle startAdmission(@OperationParam(name = "patient") Patient patient) {
+  @PostMapping
+  @ResponseBody
+  public ResponseEntity<Map<String, String>> createAdmission(
+      @RequestBody Map<String, String> data) {
     String admissionId = UUID.randomUUID().toString();
-    commandGateway.send(new CreateNewAdmissionCommand(admissionId,
-        patient.getNameFirstRep().getNameAsSingleString()));
-    Bundle bundle = new Bundle();
-    bundle.addEntry().setId(admissionId);
-    return bundle;
+    commandGateway.send(new CreateNewAdmissionCommand(admissionId, data.get("patientName")));
+    return ResponseEntity.ok(Collections.singletonMap("admissionId", admissionId));
   }
 
-  @Operation(name = "$endAdmission", idempotent = true)
-  public MethodOutcome endAdmission(@OperationParam(name = "admissionId") StringParam admissionId) {
-    commandGateway.send(new EndEmergencyServiceCommand(admissionId.getValue()));
-    return new MethodOutcome();
+  @PostMapping(name = "{admissionId}/start")
+  @ResponseBody
+  public ResponseEntity<?> startAdmission(@PathVariable("admissionId") String admissionId) {
+    commandGateway.send(new StartEmergencyServiceCommand(admissionId));
+    return ResponseEntity.ok().build();
   }
 
-  @Override
-  public Class<? extends IBaseResource> getResourceType() {
-    return Task.class;
+  @PostMapping(name = "{admissionId}/end")
+  @ResponseBody
+  public ResponseEntity<?> endAdmission(@PathVariable("admissionId") String admissionId) {
+    commandGateway.send(new EndEmergencyServiceCommand(admissionId));
+    return ResponseEntity.ok().build();
   }
+
 }

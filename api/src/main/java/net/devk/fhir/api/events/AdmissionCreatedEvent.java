@@ -1,7 +1,6 @@
-package net.devk.fhir.api;
+package net.devk.fhir.api.events;
 
 import java.time.Instant;
-import org.axonframework.modelling.command.TargetAggregateIdentifier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmergencyServiceEndedEvent {
-  @TargetAggregateIdentifier
+public class AdmissionCreatedEvent {
+
   private String admissionId;
+  private String patientId;
+  private String patientName;
   private Instant date;
+
+
+
 }

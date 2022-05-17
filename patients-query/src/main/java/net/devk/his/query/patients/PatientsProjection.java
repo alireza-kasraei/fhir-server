@@ -7,9 +7,9 @@ import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.springframework.stereotype.Service;
-import net.devk.fhir.api.FindAllPatientsQuery;
-import net.devk.fhir.api.PatientCreatedEvent;
-import net.devk.fhir.api.PatientExpiredEvent;
+import net.devk.fhir.api.events.PatientCreatedEvent;
+import net.devk.fhir.api.events.PatientExpiredEvent;
+import net.devk.fhir.api.query.FindAllPatientsQuery;
 
 @Service
 @ProcessingGroup("patients-summary")
