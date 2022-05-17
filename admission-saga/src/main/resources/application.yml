@@ -1,0 +1,15 @@
+server:
+  port: 9094
+spring:
+  application:
+    name: admission-saga
+  datasource:
+    url: jdbc:postgresql://localhost:5432/admission
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+axon:
+  axonserver:
+    servers: localhost

@@ -12,15 +12,12 @@ import net.devk.fhir.api.PatientCreatedEvent;
 import net.devk.fhir.api.PatientExpiredEvent;
 
 @Aggregate
-//@Aggregate(cache = "patientCache")
 public class PatientAggregate {
 
   @AggregateIdentifier
   private String patientId;
   private String name;
   private Instant deceasedDate;
-//  @AggregateMember
-//  private List<PatientObservation> observations = new ArrayList<>();
 
 
   @CommandHandler
