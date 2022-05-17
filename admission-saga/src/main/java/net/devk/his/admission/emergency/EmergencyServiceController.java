@@ -19,7 +19,7 @@ import net.devk.fhir.api.commands.StartEmergencyServiceCommand;
 @RestController
 @RequestMapping("/emergency")
 @RequiredArgsConstructor
-public class TaskResourceProvider {
+public class EmergencyServiceController {
 
   private final CommandGateway commandGateway;
 
@@ -32,17 +32,17 @@ public class TaskResourceProvider {
     return ResponseEntity.ok(Collections.singletonMap("admissionId", admissionId));
   }
 
-  @PostMapping(name = "{admissionId}/start")
+  @PostMapping("{admissionId}/start")
   @ResponseBody
   public ResponseEntity<?> startAdmission(@PathVariable("admissionId") String admissionId) {
-    commandGateway.send(new StartEmergencyServiceCommand(admissionId));
+    commandGateway.sendAndWait(new StartEmergencyServiceCommand(admissionId));
     return ResponseEntity.ok().build();
   }
 
-  @PostMapping(name = "{admissionId}/end")
+  @PostMapping("{admissionId}/end")
   @ResponseBody
   public ResponseEntity<?> endAdmission(@PathVariable("admissionId") String admissionId) {
-    commandGateway.send(new EndEmergencyServiceCommand(admissionId));
+    commandGateway.sendAndWait(new EndEmergencyServiceCommand(admissionId));
     return ResponseEntity.ok().build();
   }
 

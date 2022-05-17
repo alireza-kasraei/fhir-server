@@ -44,6 +44,10 @@ public class EmergencyServiceAggregate {
 
   @CommandHandler
   public void handle(StartEmergencyServiceCommand command) {
+    if (practitionerName != null) {
+      log.info("patient is in the {} office", practitionerName);
+      throw new IllegalArgumentException();
+    }
     log.info("start the Emergency Service,{}", command);
     apply(new EmergencyServiceStartedEvent(command.getAdmissionId(), Instant.now(),
         nextPractitioner()));
@@ -51,6 +55,10 @@ public class EmergencyServiceAggregate {
 
   @CommandHandler
   public void handle(EndEmergencyServiceCommand command) {
+    if (endDate != null) {
+      log.info("patient discharged already");
+      throw new IllegalArgumentException();
+    }
     log.info("finish the Emergency Service,{}", command);
     apply(new EmergencyServiceEndedEvent(command.getAdmissionId(), Instant.now()));
   }

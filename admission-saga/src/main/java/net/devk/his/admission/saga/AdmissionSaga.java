@@ -34,8 +34,12 @@ public class AdmissionSaga {
 
   @SagaEventHandler(associationProperty = "admissionId")
   public void handle(EmergencyServiceStartedEvent event) {
-    log.info("patient has been visited by,{}", event.getPractitionerName());
-    visited = true;
+    if (!visited) {
+      log.info("{} is visiting the patient ...", event.getPractitionerName());
+      visited = true;
+    } else {
+      log.info("patient has been visited by,{}", event.getPractitionerName());
+    }
   }
 
   @SagaEventHandler(associationProperty = "admissionId")
